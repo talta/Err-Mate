@@ -44,7 +44,7 @@ function navigationSelection(event){
 }
 
 function updateButtonText(){
-
+	//change the button text from begin to next question
 }
 
 function displayNextQuestion(){
