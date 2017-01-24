@@ -1,17 +1,18 @@
 
+var id = this.id;
 
-
-var questions=[
+var questions = {
 sweet: "Do you like fruity flavours",
 darkLiquors: "Dark as the night?",
-
 vitaminC: "Are ye teeth falling out?",
 lightLiquors: "Do ye like light liquors?",
 lightLiquors: "Pink spots on ye back?",
 salty: "Will we need a key to unlock that jaw?"
-]
+}
 
-var pantry = function()
+var pantry = function(shelf){
+	this.shelf=shelf;
+}
 
 var shelf = function(ingredients){
 	this.ingredients = ingredients;
@@ -40,7 +41,24 @@ bartender.prototype.createDrink = function(preferences){
 
 
 function navigationSelection(event){
+	console.log('navigation selected');
+	pirateBartenderGreeting();
+}
 
+function pirateBartenderGreeting(){
+	console.log('pirate bartender greeting');
+	$('#question').text('Err Matey.  Got any booty for a swashbuckle?');
+	displayAnswer();
+}
+
+function displayAnswer(){
+	$('#answerSpace').show();
+}
+
+function hideId(id){
+
+	console.log('answers hidden');
+	// $('.hide').addClass('hide')
 }
 
 function updateButtonText(){
@@ -60,6 +78,8 @@ function collectAnswer(){
 
 
 
-$(document).ready(){
-	$("navButton").click(navigationSelection(event))
-}
+$(document).ready(function(){
+	// $(document).on('click', '#navButton', function(){navigationSelection(event)});
+	hideId(answerSpace);
+	$('#navButton').click(navigationSelection);
+});
