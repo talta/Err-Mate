@@ -1,4 +1,12 @@
-.navButton{
+.navButton {
 	width: 200px;
 	height: 25px;
+}
+
+.show {
+	display: inline;
+}
+
+.hide {
+	display: none;
 }
