@@ -69,8 +69,6 @@ var lightLiquors = new Shelf(["wormwood", "cinnamon water", "vodka"]);
 
 ////questions are an array of key(preference), value pairs ()
 var questions = {
-	//*/ can you loop through an object, becuase an object is an array
-	///*/ should this be a constructor function? - I dont think so;
 	sweet: "Do you like fruity flavours",
 	darkLiquors: "Dark as the night?",
 	vitaminC: "Are ye teeth falling out?",
@@ -94,7 +92,6 @@ Bartender.prototype.createDrink = function(preferences){
 	}
 		//for each preference which is true, add a random item from the shelf to the drink
 		drink.push(Shelf.getRandomShelfItem())
-	}
 }
 
 ////when a user submits a question's answer, if the user says yes, set that preference (question's key) to true
@@ -109,11 +106,11 @@ Bartender.prototype.createDrink = function(preferences){
 ///get some mock-ups prior to coding
 
 
-function displayNextQuestion(){
-	////push the quesions value to the #questions container
-	$('#questionSpace').text(question[questionCounter].value)
+// function displayNextQuestion(){
+// 	////push the quesions value to the #questions container
+// 	$('#questionSpace').text(question[questionCounter].value)
 
-}
+// }
 
 	///when the submit answer button is selected
 	$('#submit').on('click', function collectAnswer(event){
@@ -129,7 +126,18 @@ function displayNextQuestion(){
 ////set the customer's prefernce to true
 function setCustomerPreference(){
 	console.log('customer preference set in');
+	///loop through each of the question's responses, if true, setting that label's for to true in the customer constructor object
+	for('.question' in '#answerSpace'){
+		var preference = $('label[for]').val();////maybe a value of for
+		///var preference = element.id
 
+		///////if the selected radio button was set to true
+		if($('input[name=answer]:checked', '#preferenceQuestions').val()=='true'){
+			///set the preference on the customer constructor object
+			///find/map the var preference to the customer preference with the same name (object's property)
+
+		}
+	}
 }
 
 
@@ -147,6 +155,7 @@ function getRandomIngredient(){
 $(document).ready(function(){
 	// $(document).on('click', '#navButton', function(){navigationSelection(event)});
 	// pirateBartenderGreeting(); ///taken out until the flow gets normalized
-	displayNextQuestion(); ///leave in until the flow is normalized;
+	// displayNextQuestion(); ///leave in until the flow is normalized;
+	console.log('customer is enumerable '+ Customer.propertyIsEnumerable(preferences));
 	console.log('questions are enumerable '+ questions.propertyIsEnumerable(questions) );
 });
