@@ -18,6 +18,9 @@ var preferences;
 	///*///should there be anything in this preferences object
 
 
+var Pantry = function(Shelf){
+	this.Shelf = Shelf;
+}
 
 
 
@@ -32,16 +35,17 @@ var Shelf = function(ingredients){
 
 ///a bartender is an object with shelves
 ///if only one bartender, may not need to be an object
-var Bartender = function(Shelf){
-	this.Shelf = Shelf;
+var Bartender = function(Pantry){
+	this.Pantry = Pantry;
 }
 
 
 ////a customer is an object with preferences
 ////*/ should there be a parameter going into the customer object?
 ////preferences are set to false, untilt he user answers yes to the appropriate question
-var Customer = function(){
+var Customer = function(preferences){
 	this.preferences = {
+		fruity: false,
 		salty: false,
 		sweet: false,
 		vitaminC: false,
@@ -50,10 +54,18 @@ var Customer = function(){
 	}
 }
 
+
+var custZach = new Customer();
 /////potentially use the drink object versus the drink variable with the createDrink scope
 var Drink = function(){
-
 }
+
+var shelves = new Shelf(ingredients);
+
+var piratePantry = new Pantry(sahelves);
+
+var barT = new Bartender(piratePantry);
+
 
 
 ////list or array of ingredients
@@ -67,7 +79,8 @@ var lightLiquors = new Shelf(["wormwood", "cinnamon water", "vodka"]);
 
 
 
-////questions are an array of key(preference), value pairs ()
+//questions are an array of key(preference), value pairs ()
+//may not be necessary anymore
 var questions = {
 	sweet: "Do you like fruity flavours",
 	darkLiquors: "Dark as the night?",
@@ -94,56 +107,57 @@ Bartender.prototype.createDrink = function(preferences){
 		drink.push(Shelf.getRandomShelfItem())
 }
 
-////when a user submits a question's answer, if the user says yes, set that preference (question's key) to true
-////the answer true marks the question's key to true within the customer's preferences
 
-
-
-/////////////Page Functionality:
-
-
-////UI as a menu, not as an individual question per view
-///get some mock-ups prior to coding
-
-
-// function displayNextQuestion(){
-// 	////push the quesions value to the #questions container
-// 	$('#questionSpace').text(question[questionCounter].value)
-
-// }
-
-	///when the submit answer button is selected
+	///when the submit answer button is selecte
+function menuSubmissionLisrtener(){
 	$('#submit').on('click', function collectAnswer(event){
 		event.preventDefault();
 		console.log('answer submitted');
-		setCustomerPreference();
+		getCustomerResponse();
 		////create drink
 		///hide question space
 		////push drink to HTML
-	})
+	});
+}
 
 
 ////set the customer's prefernce to true
-function setCustomerPreference(){
-	console.log('customer preference set in');
-	///loop through each of the question's responses, if true, setting that label's for to true in the customer constructor object
-	for('.question' in '#answerSpace'){
-		var preference = $('label[for]').val();////maybe a value of for
-		///var preference = element.id
-
-		///////if the selected radio button was set to true
-		if($('input[name=answer]:checked', '#preferenceQuestions').val()=='true'){
-			///set the preference on the customer constructor object
-			///find/map the var preference to the customer preference with the same name (object's property)
-
+function getCustomerResponse(){
+	$('.question').each(function(){
+		console.log('for each called');
+		var preference = $('label', this).attr('for');
+		console.log($('label', this).attr('for'));
+		console.log(preference);
+		console.log($('input[name="answer"]:checked', this).val());
+		if($('input[name="answer"]:checked', this).val()==='true'){
+			setCustomerPreference(preference, custZach);
 		}
-	}
+	});
+}
+
+function setCustomerPreference(preference, Customer){
+		///find/map the var preference to the customer preference with the same name (object's property)
+		Customer.preferences[preference]= true;
+		console.log('will it be set? '+Customer.preferences[preference]);
+		getRandomIngredient(preference);
+}
+
+
+Shelf.prototype.getRandon = function(){
+	return this.ingredients[Math.floor(Math.random() * this.ingredients.length)]
+}
+
+
+Pantry.prototype.getRandomIngredient = function(category){
+	return this.allIngredients[category].getRandom();
 }
 
 
 /////find a random ingredient to be added to the drink:
-function getRandomIngredient(){
-	ingredients.prototype.getRandomShelfItem = function(){
+function getRandomIngredient(preference){
+	console.log('random ingredient called ' + preference);
+	Pantry.prototype.getRandom = function(){
+		console.log('ingredient returned '+this.ingredients[Math.floor(Math.random() * this.ingredients.length)])
 		return this.ingredients[Math.floor(Math.random() * this.ingredients.length)]
 	}
 }
@@ -153,9 +167,7 @@ function getRandomIngredient(){
 
 
 $(document).ready(function(){
-	// $(document).on('click', '#navButton', function(){navigationSelection(event)});
-	// pirateBartenderGreeting(); ///taken out until the flow gets normalized
-	// displayNextQuestion(); ///leave in until the flow is normalized;
 	console.log('customer is enumerable '+ Customer.propertyIsEnumerable(preferences));
 	console.log('questions are enumerable '+ questions.propertyIsEnumerable(questions) );
+	menuSubmissionLisrtener();
 });
