@@ -59,10 +59,11 @@ var custZach = new Customer();
 
 
 var shelves = {
+	fruity: new Shelf(["Plum Brandy from Serbia shores", "Kruskovic from Croatian shores", "Limoncello from Italian Shores"]),
 	salty: new Shelf(["barnacles", "fish scales", "dried ocean water"]),
 	sweet: new Shelf(["peach seed", "rat tail", "pineapple"]),
-	vitaminC: new Shelf(["lemon plank", "Orange Juice", "rotted limes"]),
-	darkLiquors: new Shelf(["Maker's Mark", "Almond Disaronno", "St. John's Wort"])
+	vitaminC: new Shelf(["lemon plank", "Orange Juice", "rotten limes"]),
+	darkLiquors: new Shelf(["Maker's Mark", "Almond Disaronno", "St. John's Wort"]),
 	lightLiquors: new Shelf(["wormwood", "cinnamon water", "vodka"])
 }
 
@@ -72,13 +73,15 @@ var barT = new Bartender(piratePantry);
 
 
 
+
+//******/pantry method to find the pantry.shelves[salty], then get random ingredient from this shelf
+
+// Pantry.shelves[preference]
+
+
 ////list or array of ingredients
 //////shelves which have inherited ingredients:
 ////potentially create these shelves in an pantry object with the shelf as the key and the array as the ingredients
-
-
-
-
 
 
 //questions are an array of key(preference), value pairs ()
@@ -121,13 +124,27 @@ function getCustomerResponse(){
 	});
 }
 
-function setCustomerPreference(preference, Customer){
-		///find/map the var preference to the customer preference with the same name (object's property)
-		Customer.preferences[preference]= true;
-		console.log('will it be set? '+Customer.preferences[preference]);
-		getRandomIngredient(preference, ingredients);
+function setCustomerPreference(preference, Customer, Pantry, shelves){
+	///find/map the var preference to the customer preference with the same name (object's property)
+	Customer.preferences[preference]= true;
+	console.log('will it be set? '+Customer.preferences[preference]);
+	finddShelfOfPreference(preference);
 }
 
+function finddShelfOfPreference(preference){
+	console.log(preference);
+	console.log(piratePantry.shelves[preference]);
+	preferredShelf = piratePantry.shelves[preference];
+	console.log(preferredShelf);
+	piratePantry.grabIngredient(preferredShelf);
+}
+
+Pantry.prototype.grabIngredient = function(Shelf){
+	///get random ingredient
+	console.log(Shelf);
+	Shelf.getRandom(Shelf.ingredients);
+	console.log('get random ingredient will be called');
+}
 
 
 ////find a random ingredient from the shelf that matches the preference
@@ -137,36 +154,21 @@ function setCustomerPreference(preference, Customer){
 
 Shelf.prototype.getRandom = function(ingredients){
 	console.log('get random shelf called ' + ingredients);
-	return this.ingredients[Math.floor(Math.random() * this.ingredients.length)]
-}
-
-
-Pantry.prototype.getRandomIngredient = function(Shelf, ingredients){
-	console.log('get random ingredient called' + Shelf);
-	return this.Ingredients[Shelf].getRandom(ingredients);
-}
-
-
-/////find a random ingredient to be added to the drink:
-function getRandomIngredient(preference, ingredients){
-	console.log(this);
-	console.log('random ingredient called ' + preference);
-	return this.ingredients[preference].getRandom();
-	// Pantry.prototype.getRandom = function(){
-	// 	console.log('getrandomCalled '+ingredients)
-	// 	console.log('ingredient returned '+this.ingredients[Math.floor(Math.random() * this.ingredients.length)])
-	// 	return this.ingredients[Math.floor(Math.random() * this.ingredients.length)]
-	// }
+	console.log(this.ingredients[Math.floor(Math.random() * this.ingredients.length)]);
+	var selectedIngredient = this.ingredients[Math.floor(Math.random() * this.ingredients.length)];
+	console.log('selected ingredient = '+ selectedIngredient);
+	BarT.createDrink();
 }
 
 
 ////create a drink based on the customer's preferences which are set to true
 ///the bartender creates a drink based on the customer's preferences which are true
-Bartender.prototype.createDrink = function(preferences){
+Bartender.prototype.createDrink = function(selectedIngredient){
 	var drink = [];
 	var preferences= Customer.preferences;
 	//*/loop through only the preferences which are true
-
+	drinkIngredients +=selectedIngredient;
+	console.log('drinkIngredients'+ drinkIngredients);
 	////this needs to be refactored
 	for(var question in preferences){
 		console.log('this is the question value '+ question);
