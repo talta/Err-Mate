@@ -9,7 +9,7 @@
 
 ////if a preference is set to true, grab a random ingredient from the shelf
 
-// 'use strict';
+'use strict';
 
 ///ingredients are variables, which don't necessarily have properties
 var ingredients;
@@ -59,7 +59,7 @@ var custZach = new Customer();
 
 
 var shelves = {
-	fruity: new Shelf(["Plum Brandy from Serbia shores", "Kruskovic from Croatian shores", "Limoncello from Italian Shores"]),
+	fruity: new Shelf(["Plum Brandy from Serbia shores", "Kruskovac from Croatian shores", "Limoncello from Italian Shores"]),
 	salty: new Shelf(["barnacles", "fish scales", "dried ocean water"]),
 	sweet: new Shelf(["peach seed", "rat tail", "pineapple"]),
 	vitaminC: new Shelf(["lemon plank", "Orange Juice", "rotten limes"]),
@@ -134,7 +134,7 @@ function setCustomerPreference(preference, Customer, Pantry, shelves){
 function finddShelfOfPreference(preference){
 	console.log(preference);
 	console.log(piratePantry.shelves[preference]);
-	preferredShelf = piratePantry.shelves[preference];
+	var preferredShelf = piratePantry.shelves[preference];
 	console.log(preferredShelf);
 	piratePantry.grabIngredient(preferredShelf);
 }
@@ -157,7 +157,7 @@ Shelf.prototype.getRandom = function(ingredients){
 	console.log(this.ingredients[Math.floor(Math.random() * this.ingredients.length)]);
 	var selectedIngredient = this.ingredients[Math.floor(Math.random() * this.ingredients.length)];
 	console.log('selected ingredient = '+ selectedIngredient);
-	BarT.createDrink();
+	barT.createDrink();
 }
 
 
@@ -167,7 +167,7 @@ Bartender.prototype.createDrink = function(selectedIngredient){
 	var drink = [];
 	var preferences= Customer.preferences;
 	//*/loop through only the preferences which are true
-	drinkIngredients +=selectedIngredient;
+	var drinkIngredients =[selectedIngredient];
 	console.log('drinkIngredients'+ drinkIngredients);
 	////this needs to be refactored
 	for(var question in preferences){
@@ -175,7 +175,7 @@ Bartender.prototype.createDrink = function(selectedIngredient){
 		$('.questionSpace').text(value);
 	}
 		//for each preference which is true, add a random item from the shelf to the drink
-		drink.push(Shelf.getRandomShelfItem())
+		////sdrink.push(Shelf.getRandomShelfItem())
 }
 
 
