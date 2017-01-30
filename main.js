@@ -63,6 +63,7 @@ function menuSubmissionListener(){
 		console.log(this);
 		getCustomerResponse();
 	});
+	////move get customer response here
 }
 
 
@@ -82,12 +83,17 @@ function getCustomerResponse(){
 ///find/map the var preference to the customer preference with the same name (object's property)
 function setCustomerPreference(preference, Customer, Pantry, shelves){
 	Customer.preferences[preference]= true;
-	console.log('will it be set? '+Customer.preferences[preference]);
+	console.log('will it be set? '+ Customer.preferences[preference]);
 	var preferredShelf = piratePantry.shelves[preference];
-	piratePantry.grabIngredient(preferredShelf);
-
+	makeDrink(preferredShelf);
 }
 
+
+function makeDrink(){
+	piratePantry.grabIngredient(preferredShelf);
+	barT.createDrink(ingredients, Customer);
+	barT.serveDrink(ingredients);
+}
 
 function takeMenu(){
 	$('#questionSpace').addClass('hide');
@@ -113,8 +119,6 @@ Shelf.prototype.getRandom = function(ingredients){
 	console.log(this.ingredients[Math.floor(Math.random() * this.ingredients.length)]);
 	selectedIngredient = this.ingredients[Math.floor(Math.random() * this.ingredients.length)];
 	console.log('selected ingredient = '+ selectedIngredient);
-	barT.createDrink(ingredients, Customer);
-	barT.serveDrink(ingredients);
 }
 
 Bartender.prototype.createDrink = function(selectedIngredient, Customer){
