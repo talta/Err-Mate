@@ -6,6 +6,8 @@ var preferences;
 
 	var drinkIngredients = [];
 
+var selectedIngredient;
+
 var Drink = function(selectedIngredients){
 	this.selectedIngredients = selectedIngredients;
 }
@@ -81,18 +83,11 @@ function getCustomerResponse(){
 function setCustomerPreference(preference, Customer, Pantry, shelves){
 	Customer.preferences[preference]= true;
 	console.log('will it be set? '+Customer.preferences[preference]);
-	workOnDrink(preference);
+	var preferredShelf = piratePantry.shelves[preference];
+	piratePantry.grabIngredient(preferredShelf);
+
 }
 
-function workOnDrink(preference){
-	console.log(preference);
-	console.log(piratePantry.shelves[preference]);
-	var preferredShelf = piratePantry.shelves[preference];
-	console.log(preferredShelf);
-	piratePantry.grabIngredient(preferredShelf);
-	barT.createDrink(ingredients);
-	barT.serveDrink(ingredients);
-}
 
 function takeMenu(){
 	$('#questionSpace').addClass('hide');
@@ -116,11 +111,13 @@ Pantry.prototype.grabIngredient = function(Shelf){
 Shelf.prototype.getRandom = function(ingredients){
 	console.log('get random shelf called ' + ingredients);
 	console.log(this.ingredients[Math.floor(Math.random() * this.ingredients.length)]);
-	var selectedIngredient = this.ingredients[Math.floor(Math.random() * this.ingredients.length)];
+	selectedIngredient = this.ingredients[Math.floor(Math.random() * this.ingredients.length)];
 	console.log('selected ingredient = '+ selectedIngredient);
+	barT.createDrink(ingredients, Customer);
+	barT.serveDrink(ingredients);
 }
 
-Bartender.prototype.createDrink = function(selectedIngredient){
+Bartender.prototype.createDrink = function(selectedIngredient, Customer){
 	console.log('selected ingredient being added to drink '+selectedIngredient);
 	var preferences= Customer.preferences;
 	drinkIngredients.push(' '+ selectedIngredient );
